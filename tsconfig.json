@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es2017", // į kokią JavaScript versiją paversti kodą                 
+    "target": "es2021", // į kokią JavaScript versiją paversti kodą
     "module": "commonjs", // Transpiliuojamų failų modulio tipas                        
     "experimentalDecorators": true, // ar leisti naudoti dekoratorius               
     "emitDecoratorMetadata": true, // ar sukurti dekoratorių aprašymų failą               
@@ -23,6 +23,6 @@
     "skipLibCheck": true // ar praleisti tipų tikrinimą naudojant bibliotekas
   },
   "include": [
-    "src/main.ts"
+    "src/**/*"
   ]
 }
