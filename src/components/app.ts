@@ -1,5 +1,12 @@
+import CarsCollection from '../helpers/cars-collection';
+import cars from '../data/cars';
+import models from '../data/models';
+import brands from '../data/brands';
+
 class App {
   private htmlElement: HTMLElement;
+
+  private carsCollection: CarsCollection;
 
   constructor(selector: string) {
     const foundElement = document.querySelector<HTMLElement>(selector);
