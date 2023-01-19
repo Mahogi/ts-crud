@@ -28,6 +28,21 @@ class App {
     const container = document.createElement('div');
     container.className = 'container my-5';
 
+    // this.htmlElement.append(container);
+
+    const table = new Table({
+      title: 'All Cars',
+      columns: {
+        id: 'ID',
+        brand: 'Brand',
+        model: 'Model',
+        price: 'Price',
+        year: 'Year',
+      },
+      rowsData: this.carsCollection.all.map(stringifyProps),
+    });
+
+    container.append(table.htmlElement);
     this.htmlElement.append(container);
   };
 }
