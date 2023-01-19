@@ -4,6 +4,14 @@ import models from '../data/models';
 import brands from '../data/brands';
 import Table from './table';
 import stringifyProps from '../helpers/stringify-props';
+import SelectField, { type Option } from './select-field';
+import type Brand from '../types/brand';
+// import carsCollection from "../helpers/cars-collection";
+
+const brandToOption = ({ id, title }: Brand): Option => ({
+  value: id,
+  text: title,
+});
 
 class App {
   private htmlElement: HTMLElement;
@@ -29,6 +37,9 @@ class App {
     container.className = 'container my-5';
 
     // this.htmlElement.append(container);
+    const selectField = new SelectField({
+      options: this.carsCollection.brands.map(brandToOption),
+    });
 
     const table = new Table({
       title: 'All Cars',
@@ -42,7 +53,10 @@ class App {
       rowsData: this.carsCollection.all.map(stringifyProps),
     });
 
-    container.append(table.htmlElement);
+    container.append(
+        selectField.htmlElement,
+        table.htmlElement,
+    );
     this.htmlElement.append(container);
   };
 }

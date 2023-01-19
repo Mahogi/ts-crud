@@ -39,6 +39,10 @@ class CarsCollection {
     public get all(): CarJoined[] {
         return this.props.cars.map(this.joinCar);
     }
+
+    public get brands(): Brand[] {
+        return JSON.parse(JSON.stringify(this.props.brands));
+    }
 }
 
 export default CarsCollection;
