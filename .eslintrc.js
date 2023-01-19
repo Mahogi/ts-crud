@@ -20,6 +20,7 @@ module.exports = {
     "comma-dangle": "off",
     "@typescript-eslint/comma-dangle": [2],
     'react/jsx-filename-extension': [0],
-    "@typescript-eslint/indent": [0]
+    "@typescript-eslint/indent": [0],
+    "lines-between-class-members": [0],
   },
 };
