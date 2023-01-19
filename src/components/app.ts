@@ -39,6 +39,9 @@ class App {
     // this.htmlElement.append(container);
     const selectField = new SelectField({
       options: this.carsCollection.brands.map(brandToOption),
+      onChange: (_, brandId) => {
+        console.log(`brand changed into id: ${brandId}`);
+      },
     });
 
     const table = new Table({
