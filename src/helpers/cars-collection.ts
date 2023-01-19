@@ -24,18 +24,15 @@ class CarsCollection {
         this.props = props;
     }
 
-    private joinCar = (car: Car) => {
+    private joinCar = ({ modelId, ...car }: Car) => {
         const { brands, models } = this.props;
-        const carModel = models.find((model) => model.id === car.modelId);
+        const carModel = models.find((model) => model.id === modelId);
         const carBrand = brands.find((brand) => brand.id === carModel?.brandId);
 
         return {
-            // ...car,
-            id: car.id,
+            ...car,
             brand: (carBrand && carBrand.title) ?? 'unknown',
             model: (carModel && carModel.title) ?? 'unknown',
-            price: car.price,
-            year: car.year,
         };
     };
 

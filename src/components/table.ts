@@ -55,10 +55,12 @@ class Table<T extends TableRowData> {
     };
 
     public initializeBody = () => {
+        const keys = Object.keys(this.props.columns);
         this.props.rowsData.forEach((rowdata) => {
-            const columnsNames = Object.values(rowdata);
-            const columnsHtmlStr = columnsNames
-                .map((name) => `<td>${name}</td>`)
+            // const columnsNames = Object.values(rowdata);
+
+            const columnsHtmlStr = keys
+                .map((key) => `<td>${rowdata[key]}</td>`)
                 .join('');
            // this.thead.innerHTML = `<tr>${columnsNamesStr}</tr> `;
             // const rowHtmlStr = `<tr>${columnsHtmlStr}</tr>`;
