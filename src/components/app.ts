@@ -2,7 +2,7 @@ import CarsCollection from '../helpers/cars-collection';
 import cars from '../data/cars';
 import models from '../data/models';
 import brands from '../data/brands';
-import Table, { type TableRowData } from './table';
+import Table from './table'; // { type TableRowData }
 import stringifyProps from '../helpers/stringify-props';
 import SelectField, { type Option } from './select-field';
 import type Brand from '../types/brand';
