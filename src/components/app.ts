@@ -2,7 +2,7 @@ import CarsCollection from '../helpers/cars-collection';
 import cars from '../data/cars';
 import models from '../data/models';
 import brands from '../data/brands';
-import Table from './table';
+import Table, { type TableRowData } from './table';
 import stringifyProps from '../helpers/stringify-props';
 import SelectField, { type Option } from './select-field';
 import type Brand from '../types/brand';
@@ -29,22 +29,12 @@ class App {
       models,
       brands,
     });
-    console.log(this.carsCollection);
+    // console.log(this.carsCollection);
   }
 
   initialize = (): void => {
     const container = document.createElement('div');
     container.className = 'container my-5';
-
-    // this.htmlElement.append(container);
-    const selectField = new SelectField({
-      options: this.carsCollection.brands.map(brandToOption),
-      onChange: (_, brandId) => {
-        const newCars = this.carsCollection.getByBrandId(brandId);
-
-         console.table(newCars);
-      },
-    });
 
     const table = new Table({
       title: 'All Cars',
@@ -56,6 +46,19 @@ class App {
         year: 'Year',
       },
       rowsData: this.carsCollection.all.map(stringifyProps),
+    });
+
+    // this.htmlElement.append(container);
+    const selectField = new SelectField({
+      options: this.carsCollection.brands.map(brandToOption),
+      onChange: (_, brandId, { text: brandTitle }) => {
+        const newCars = this.carsCollection.getByBrandId(brandId);
+        table.updateProps({
+          rowsData: newCars.map(stringifyProps),
+          title: brandTitle,
+        });
+         console.table(newCars);
+      },
     });
 
     container.append(
