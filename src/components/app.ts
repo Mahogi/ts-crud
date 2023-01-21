@@ -22,7 +22,9 @@ class App {
 
   private carsCollection: CarsCollection;
 
-  private selectedBrandId: string | null;
+  private selectedBrandId: string;
+
+  private selectedBrandTitle: string;
 
   private brandSelect: SelectField;
 
@@ -60,21 +62,30 @@ class App {
       onChange: this.handleBrandChange,
     });
 
-    this.selectedBrandId = null;
+    this.selectedBrandId = ALL_BRANDS_ID;
+    this.selectedBrandTitle = ALL_BRANDS_TITLE;
     this.initialize();
   }
 
   private handleBrandChange = (_: Event, brandId: string, { text: brandTitle }: Option) => {
-    const carBrands = brandId === ALL_BRANDS_ID
+    this.selectedBrandTitle = brandTitle;
+    this.selectedBrandId = brandId;
+    this.update();
+  };
+
+  public update = (): void => {
+    const selectedCars = this.selectedBrandId === ALL_BRANDS_ID
         ? this.carsCollection.all
-        : this.carsCollection.getByBrandId(brandId);
-    // const newCars = this.carsCollection.getByBrandId(brandId);
-    this.table.updateProps({
-      rowsData: carBrands.map(stringifyProps),
+        : this.carsCollection.getByBrandId(this.selectedBrandId);
+
+    const brandTitle = this.selectedBrandId === ALL_BRANDS_ID
+        ? ALL_BRANDS_TITLE
+        : this.selectedBrandTitle;
+
+      this.table.updateProps({
+      rowsData: selectedCars.map(stringifyProps),
       title: brandTitle,
     });
-
-    this.selectedBrandId = brandId;
   };
 
   initialize = (): void => {
