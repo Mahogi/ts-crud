@@ -2,11 +2,12 @@ import CarsCollection from '../helpers/cars-collection';
 import cars from '../data/cars';
 import models from '../data/models';
 import brands from '../data/brands';
-import Table from './table'; // { type TableRowData }
+import Table from './table'; // { type TableRowData, type TableProps  }
 import stringifyProps, { StringifyObject } from '../helpers/stringify-props';
-import SelectField, { type Option } from './select-field';
+import SelectField, { type Option } from './select-field'; // type SelectFieldProps
 import type Brand from '../types/brand';
 import CarJoined from '../types/car-joined';
+// import carJoined from '../types/car-joined';
 // import carsCollection from "../helpers/cars-collection";
 
 const brandToOption = ({ id, title }: Brand): Option => ({
@@ -14,20 +15,16 @@ const brandToOption = ({ id, title }: Brand): Option => ({
   text: title,
 });
 
+// type CarRowData = ReturnType<typeof CarJoined>;
 const ALL_BRANDS_ID = '-1';
 const ALL_BRANDS_TITLE = 'All Cars';
 
 class App {
   private htmlElement: HTMLElement;
-
   private carsCollection: CarsCollection;
-
   private selectedBrandId: string;
-
   private selectedBrandTitle: string;
-
   private brandSelect: SelectField;
-
   private table: Table<StringifyObject<CarJoined>>;
 
   constructor(selector: string) {
@@ -52,6 +49,7 @@ class App {
         year: 'Year',
       },
       rowsData: this.carsCollection.all.map(stringifyProps),
+      onDelete: this.handleCarDelete,
     });
 
     this.brandSelect = new SelectField({
@@ -67,6 +65,14 @@ class App {
     this.initialize();
   }
 
+  private handleCarDelete = (carId: string) => {
+  this.carsCollection.deleteCarById(carId);
+//   this.table.updateProps({
+//     rowsData: this.carsCollection.all.map(stringifyProps),
+// })
+  this.update();
+};
+
   private handleBrandChange = (_: Event, brandId: string, { text: brandTitle }: Option) => {
     this.selectedBrandTitle = brandTitle;
     this.selectedBrandId = brandId;
@@ -81,6 +87,9 @@ class App {
     const brandTitle = this.selectedBrandId === ALL_BRANDS_ID
         ? ALL_BRANDS_TITLE
         : this.selectedBrandTitle;
+        // : this.carsCollection.getBrandById(this.selectedBrandId).title;
+
+    // console.log(this.carsCollection.getBrandById(this.selectedBrandId).title);
 
       this.table.updateProps({
       rowsData: selectedCars.map(stringifyProps),

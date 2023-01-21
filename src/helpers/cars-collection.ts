@@ -57,6 +57,20 @@ class CarsCollection {
 
         return joinedCars;
     };
+
+    // public getBrandById = (brandId: string): Brand => {
+    //     const brand = this.props.brands.find(({ id }) => id === brand.id);
+    //     if (brand === undefined) {
+    //         throw new Error(`Brand not found with id${brandId}`);
+    //     }
+    //     return brand;
+    // };
+
+    public deleteCarById = (carId: string): void => {
+        this.props.cars = this.props.cars
+            .filter((car) => car.id !== carId);
+        console.table(this.props.cars);
+    };
 }
 
 export default CarsCollection;

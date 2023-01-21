@@ -1,14 +1,16 @@
 import getPropCount from '../helpers/get-prop-count';
+// import { StringifyObject } from '../helpers/stringify-props';
 
 export type TableRowData = {
     id: string,
     [key: string]: string,
 };
 
-type TableProps<Type extends TableRowData> = {
+export type TableProps<Type extends TableRowData> = {
     title: string,
     columns: Type,
     rowsData: Type[],
+    onDelete: (id: string) => void,
 };
 
 class Table<T extends TableRowData> {
@@ -27,6 +29,7 @@ class Table<T extends TableRowData> {
 
     private thead: HTMLTableSectionElement;
 
+    // public constructor(props: { onDelete: any; columns: { year: string; price: string; model: string; id: string; //brand: string }; title: string; rowsData: StringifyObject<Type>[] }) {
     public constructor(props: TableProps<T>) {
         if (!Table.checkColumnsCompatibility(props.columns, props.rowsData)) {
             throw new Error('Column number doesn\'t match row data');
@@ -50,12 +53,12 @@ class Table<T extends TableRowData> {
 
     private renderHeadView = () => {
         const columnsNames = Object.values(this.props.columns);
-        const columnsNamesStr = columnsNames
+        const columnsNamesStr = `${columnsNames
             .map((name) => `<th>${name}</th>`)
-            .join('');
+            .join('')}<th></th>`;
         this.thead.innerHTML = `
             <tr class="text-center h4">
-                <th colspan="${columnsNames.length}">${this.props.title}</th>
+                <th colspan="${columnsNames.length + 1}">${this.props.title}</th>
             </tr>
         <tr>${columnsNamesStr}</tr> `;
     };
@@ -63,12 +66,26 @@ class Table<T extends TableRowData> {
     private renderBodyView = () => {
        this.tbody.innerHTML = '';
         const keys = Object.keys(this.props.columns);
-        this.props.rowsData.forEach((rowdata) => {
-            const columnsHtmlStr = keys
-                .map((key) => `<td>${rowdata[key]}</td>`)
-                .join('');
 
-            this.tbody.innerHTML += `<tr>${columnsHtmlStr}</tr>`;
+        this.props.rowsData.forEach((rowdata) => {
+            const tr = document.createElement('tr');
+            const lastTd = document.createElement('td');
+            const delBtn = document.createElement('button');
+            delBtn.className = 'btn btn-danger btn-sm';
+            delBtn.innerHTML = 'X';
+
+            delBtn.addEventListener('click', () => {
+                this.props.onDelete(rowdata.id);
+            });
+
+            tr.innerHTML = keys
+            .map((key) => `<td>${rowdata[key]}</td>`)
+            .join('');
+
+            lastTd.append(delBtn);
+            tr.append(lastTd);
+            // const deleteBtn = tr.querySelector('.btn-danger');
+            this.tbody.append(tr);
         });
     };
 
